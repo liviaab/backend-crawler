@@ -25,7 +25,7 @@ If you have problems, check out [Troubleshooting & Support](https://postgresapp.
 Then run
 ```sh
 $ createdb -T template0 court_crawler
-$ psql court_crawler < db/initializer.sql
+$ psql court_crawler < configs/db_initializer.sql
 ```
 
 
