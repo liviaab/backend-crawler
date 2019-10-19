@@ -1,5 +1,9 @@
 import requests
 
+PROCESS_NUMBER_LENGTH = 25
+UNIFIED_DIGIT_AND_YEAR_INDEX = 15
+UNIFIED_FORUM_INDEX = 21
+
 default_payload = {
     'conversationId': '',
     'dadosConsulta.localPesquisa.cdLocal': '-1',
@@ -9,6 +13,7 @@ default_payload = {
     'uuidCaptcha':''
 }
 
+
 class CourtCrawler:
     def __init__(self, base_url='https://www2.tjal.jus.br/cpopg/search.do',
                 payload=default_payload):
@@ -16,11 +21,11 @@ class CourtCrawler:
         self.payload = payload
 
     def _set_payload_process_number(self, process_number):
-        if len(process_number) != 25:
+        if len(process_number) != PROCESS_NUMBER_LENGTH:
             raise ValueError('The process number does not have the correct format.\nIt must have 25 characters.\n')
 
-        self.payload['numeroDigitoAnoUnificado'] = process_number[:15]
-        self.payload['foroNumeroUnificado'] = process_number[21:]
+        self.payload['numeroDigitoAnoUnificado'] = process_number[:UNIFIED_DIGIT_AND_YEAR_INDEX]
+        self.payload['foroNumeroUnificado'] = process_number[UNIFIED_FORUM_INDEX:]
         self.payload['dadosConsulta.valorConsultaNuUnificado'] = process_number
 
     def get_process(self, process_number):
