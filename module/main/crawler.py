@@ -21,7 +21,7 @@ class CourtCrawler:
         self.base_url = base_url
         self.payload = payload
 
-    def _set_payload_process_number(self, process_number):
+    def __set_payload_process_number(self, process_number):
         if len(process_number) != PROCESS_NUMBER_LENGTH:
             raise ValueError('The process number does not have the correct format.'
                             '\nIt must have {} characters.\n'.format(PROCESS_NUMBER_LENGTH))
