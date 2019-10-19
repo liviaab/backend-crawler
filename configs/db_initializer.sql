@@ -18,7 +18,9 @@ CREATE TABLE processes (
   judge varchar(255) NOT NULL,
   value varchar(50) NOT NULL,
   last_access TIMESTAMP NOT NULL,
-  changes json NULL
+  changes json NULL,
+  court_id integer NOT NULL,
+  UNIQUE(process_number, court_id)
 );
 
 -- Roles

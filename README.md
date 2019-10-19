@@ -5,7 +5,7 @@ This project is the backend of an application used to retrieve information of sp
 
 ## Run locally
 
-This project was built using `python3, `pip3` to install the libraries and `PostgreSQL v10.10`.
+This project was built using `python3, `pip3` to install the libraries and `PostgreSQL` version 11.2 or above.
 
 Clone the repo
 ```sh
@@ -28,6 +28,7 @@ $ createdb -T template0 court_crawler
 $ psql court_crawler < configs/db_initializer.sql
 ```
 
+If needed, change the user and password connection parameters in the configuration file located at `configs/db_credentials.ini`
 
 Serving the API
 ```sh
