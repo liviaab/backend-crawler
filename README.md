@@ -5,7 +5,7 @@ This project is the backend of an application used to retrieve information of sp
 
 ## Run locally
 
-This project was built using `python3, `pip3` to install the libraries and `PostgreSQL` version 11.2 or above.
+This project was built using `python3`, `pip3` to install the libraries and `PostgreSQL` version 11.2 or above.
 
 Clone the repo
 ```sh
