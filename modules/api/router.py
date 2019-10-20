@@ -1,8 +1,8 @@
 from flask import Flask
 from flask_restful import Resource, Api
 
-from v1.resources.Courts import Courts
-from v1.resources.Processes import Processes
+from modules.api.v1.resources.Courts import Courts
+from modules.api.v1.resources.Processes import Processes
 
 
 app = Flask(__name__)

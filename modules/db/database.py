@@ -1,52 +1,66 @@
 import psycopg2 as pg
-import credentials
+from psycopg2.extras import RealDictCursor
+import modules.db.credentials as credentials
 
-class Database:
-    def __init__(self):
-        self.params = credentials.build()
-        self.conn = None
-        self.cursor = None
+def __execute_query__(conn, query):
+    try:
+        cursor = conn.cursor(cursor_factory=RealDictCursor)
+        cursor.execute(query)
+        result = cursor.fetchall()
+        return result
+    except pg.ProgrammingError as error:
+        print(error)
+        return None
+    except (Exception, pg.DatabaseError) as error:
+        print(error)
 
-    def __execute_query__(self, query):
-        try:
-            self.cursor.execute(query)
-            return self.cursor.fetchall()
-        except (Exception, pg.DatabaseError) as error:
-            print(error)
 
+def open():
+    params = credentials.build()
+    conn = None
 
-    def open(self):
-        try:
-            self.conn = pq.connect(**self.params)
-            self.cursor = self.conn.cursor()
+    try:
+        print(params)
+        conn = pg.connect(**params)
+        return conn
+    except Exception as error:
+        print(error)
+        if conn is not None:
+            conn.close()
 
-        except error:
-            print(error)
-        finally:
-            if self.conn is not None:
-                self.conn.close()
+def close(conn):
+    if conn is not None:
+        conn.close()
 
-    def close(self):
-        if self.conn is not None:
-            self.conn.close()
-            self.cursor.close()
+def get_courts(conn):
+    query = 'SELECT * FROM courts;'
+    return __execute_query__(conn, query)
 
-    def get_courts(self, process_number, court):
-        query = 'SELECT * FROM courts;'
-        return __execute_query__(query)
+def get_process(conn, process_number):
+    query = 'SELECT processes.*, parties_involved.name, roles.name '\
+            'FROM processes '\
+            'INNER JOIN parties_involved as pi ON processes.id = pi.process_id '\
+            'INNER JOIN roles ON roles.id = pi.role_id;'\
+            'WHERE processes.number = {};'.format(process_number)
+    return __execute_query__(conn, query)
 
-    def get_process(self, process_number, court):
-        query = 'SELECT processes.*, parties_involved.name, roles.name '\
-                'FROM processes '\
-                'INNER JOIN parties_involved as pi ON processes.id = pi.process_id '\
-                'INNER JOIN roles ON roles.id = pi.role_id;'\
-                'WHERE processes.number = {} AND court_id = {}'
-                .format(process_number, court)
-        return __execute_query__(query)
+def insert_process(conn, process_args, parties_arg):
+    try:
+        query_process = 'INSERT INTO processes VALUES ({}) RETURNING * ;'.fomart(args)
+        [inserted_process] = conn.cursor().execute(query_process)
+        query_parties = 'INSERT INTO parties_involved VALUES ({}) RETURNING * ;'.fomart(args)
+        [inserted_parties] = conn.cursor().execute(query_parties)
+        conn.commit()
 
-    def update_process_movements(self, process_number, court, changes):
-        query = 'UPDATE processes SET changes = {}'\
-                'WHERE processes.number = {} AND court_id = {}'
-                .format(changes, process_number, court)
+        return inserted_process, inserted_parties
+    except Exception as error:
+        print(error)
 
-        return __execute_query__(query)
+def update_process_movements(conn, process_number, changes):
+    query = 'UPDATE processes SET changes = {}'\
+            'WHERE processes.number = {} '\
+            'RETURNING * ;'.format(changes, process_number)
+
+    [updated_record] = __execute_query__(conn, query)
+    conn.commit()
+    return updated_record

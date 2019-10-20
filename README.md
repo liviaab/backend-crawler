@@ -32,7 +32,7 @@ If needed, change the user and password connection parameters in the configurati
 
 Serving the API
 ```sh
-$ python3 module/api/router.py
+$ python3 modules/api/router.py
 ```
 
 It will open at [http://localhost:3333/](http://localhost:3333/)
