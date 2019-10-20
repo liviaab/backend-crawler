@@ -31,6 +31,6 @@ class CourtCrawler:
         self.payload['dadosConsulta.valorConsultaNuUnificado'] = process_number
 
     def get_process(self, process_number):
-        self._set_payload_process_number(process_number)
+        self.__set_payload_process_number(process_number)
         response = requests.get(self.base_url, params=self.payload)
         return response.status_code, response.text
