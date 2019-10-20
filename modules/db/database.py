@@ -28,7 +28,8 @@ def close(conn):
 
 def get_courts(conn):
     query = 'SELECT * FROM courts;'
-    return __execute_query__(conn.cursor(), query, None)
+    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    return __execute_query__(cursor, query, None)
 
 def get_process(conn, process_number):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
