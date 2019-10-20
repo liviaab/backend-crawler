@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_restful import Api
+from flask_cors import CORS
 
 from modules.api.v1.resources.Courts import Courts
 from modules.api.v1.resources.Processes import Processes
@@ -7,6 +8,7 @@ from modules.api.v1.resources.Processes import Processes
 
 app = Flask(__name__)
 api = Api(app)
+cors = CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
 
 # Routes
 api.add_resource(Courts, '/api/v1/courts')
