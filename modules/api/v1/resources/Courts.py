@@ -1,5 +1,6 @@
 from flask_restful import Resource
+import modules.main.controller as controller
 
 class Courts(Resource):
     def get(self):
-        return {'teste': [{'nome': 'Lívia Almeida Barbosa'}, {'nome': 'Joaquim'}] }
+        return controller.get_courts()
