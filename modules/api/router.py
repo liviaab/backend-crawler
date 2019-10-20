@@ -1,5 +1,5 @@
 from flask import Flask
-from flask_restful import Resource, Api
+from flask_restful import Api
 
 from modules.api.v1.resources.Courts import Courts
 from modules.api.v1.resources.Processes import Processes
