@@ -27,9 +27,11 @@ class CourtCrawler:
                 'The process number does not have the correct format.\n'
                 'It must have {} characters.\n'.format(PROCESS_NUMBER_LENGTH))
 
-        self.payload['numeroDigitoAnoUnificado'] = process_number[:UNIFIED_DIGIT_AND_YEAR_INDEX]
-        self.payload['foroNumeroUnificado'] = process_number[UNIFIED_FORUM_INDEX:]
         self.payload['dadosConsulta.valorConsultaNuUnificado'] = process_number
+        self.payload['numeroDigitoAnoUnificado'] = \
+            process_number[:UNIFIED_DIGIT_AND_YEAR_INDEX]
+        self.payload['foroNumeroUnificado'] = \
+            process_number[UNIFIED_FORUM_INDEX:]
 
     def get_process(self, process_number):
         self.__set_payload_process_number(process_number)
