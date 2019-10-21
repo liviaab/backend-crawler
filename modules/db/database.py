@@ -118,7 +118,7 @@ def __format_process_movimentations(process_id, changes):
 def __format_parties_values(process_id, parties_involved):
     values = []
     for (role, name) in parties_involved.items():
-        values.append((process_id, role.strip(':'), name))
+        values.append((process_id, name, role.strip(':')))
     return values
 
 
