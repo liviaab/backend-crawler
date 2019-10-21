@@ -23,7 +23,7 @@ def get_process_info(process_number):
         db.insert_process(conn, details, entities, changes)
         info, members, movimentations = db.get_process(conn, process_number)
         db.close(conn)
-        return __process_complete_info_to_json(info, members, movimentations)
+        return __process_info_to_json(info, members, movimentations)
 
     info, members, movimentations = result
 
@@ -34,7 +34,7 @@ def get_process_info(process_number):
         info, members, movimentations = db.get_process(conn, process_number)
 
     db.close(conn)
-    return __process_complete_info_to_json(info, members, movimentations)
+    return __process_info_to_json(info, members, movimentations)
 
 
 def __parse_data(text):
@@ -57,16 +57,18 @@ def __last_access_greater_than_a_day(date):
     return delta.seconds > DAY_IN_SECONDS
 
 
-def __process_complete_info_to_json(info, parties_involved, movimentations):
-    complete_info = {key: info[key] for key in info}
-    complete_info['last_access'] = str(complete_info['last_access'].strftime("%d/%m/%y"))
-    complete_info['parties_involved'] = []
-    complete_info['movimentations'] = []
+def __process_info_to_json(info, parties_involved, movimentations):
+    process = {key: info[key] for key in info}
+    process['last_access'] = str(process['last_access'].strftime("%d/%m/%y"))
+    process['parties_involved'] = []
+    process['movimentations'] = []
 
     for entity in parties_involved:
-        complete_info['parties_involved'].append({key: entity[key] for key in entity})
+        process['parties_involved'].append(
+            {key: entity[key] for key in entity}
+        )
 
     for change in movimentations:
-        complete_info['movimentations'].append({key: change[key] for key in change})
+        process['movimentations'].append({key: change[key] for key in change})
 
-    return json.loads(json.dumps(complete_info))
+    return json.loads(json.dumps(process))
