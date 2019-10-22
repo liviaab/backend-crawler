@@ -4,3 +4,5 @@ flask-restful>=0.3.7
 psycopg2>=2.8.3
 -e .
 -U flask-cors
+-U pytest
+requests-mock
