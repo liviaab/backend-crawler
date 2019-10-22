@@ -37,7 +37,18 @@ $ python3 modules/api/router.py
 
 It will open at [http://localhost:3333/](http://localhost:3333/)
 
-##### Running the tests
+#### Running the tests
 ```sh
 $ pytest -s
 ```
+
+You can also test with `postman` using the request URL `http://localhost:3333/api/v1/processes/<process_number>`
+
+Process number examples:
+
+- 0067154-55.2010.8.02.0001
+- 0000575-40.2014.8.02.0081
+- 0000214-28.2011.8.02.0081
+- 0717561-98.2019.8.02.0001
+- 0716715-81.2019.8.02.0001
+- 0725703-91.2019.8.02.0001
