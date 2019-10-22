@@ -16,7 +16,7 @@ default_payload = {
 }
 
 
-class CourtCrawler:
+class CourtCrawler(object):
     def __init__(self, base_url=BASE_URL, payload=default_payload):
         self.base_url = base_url
         self.payload = payload

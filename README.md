@@ -28,7 +28,7 @@ $ createdb -T template0 court_crawler
 $ psql court_crawler < configs/db_initializer.sql
 ```
 
-If needed, change the user and password connection parameters in the configuration file located at `configs/db_credentials.ini`
+If needed, change the user and password connection parameters in the configuration file located at `configs/db_credentials.local`
 
 Serving the API
 ```sh
@@ -38,3 +38,6 @@ $ python3 modules/api/router.py
 It will open at [http://localhost:3333/](http://localhost:3333/)
 
 ##### Running the tests
+```sh
+$ pytest -s
+```
