@@ -1,11 +1,8 @@
-import psycopg2 as pg
-from psycopg2.extras import RealDictCursor, execute_values, Json
-from psycopg2.extensions import register_adapter
+import mysql.connector as db
 from datetime import datetime
 import modules.db.credentials as credentials
 
 
-register_adapter(dict, Json)
 DEFAULT_COURT_ID = 1
 ID_INDEX = 1
 
@@ -15,7 +12,12 @@ def open():
     conn = None
 
     try:
-        conn = pg.connect(**params)
+        conn = db.connect(
+          host=params['host'],
+          user=params['user'],
+          passwd=params['password'],
+          database=params['database']
+        )
         return conn
     except Exception as error:
         print(error)
@@ -30,12 +32,12 @@ def close(conn):
 
 def get_courts(conn):
     query = 'SELECT * FROM courts;'
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor = conn.cursor(dictionary=True)
     return __execute_query__(cursor, query, None)
 
 
 def get_process(conn, process_number):
-    cursor = conn.cursor(cursor_factory=RealDictCursor)
+    cursor = conn.cursor(dictionary=True)
     try:
         info = __select_process(cursor, process_number)
 
@@ -44,6 +46,7 @@ def get_process(conn, process_number):
 
         parties_involved = __select_parties_involved(cursor, info['id'])
         movimentations = __select_movimentations(cursor, info['id'])
+
         return info, parties_involved, movimentations
     except Exception as error:
         print(error)
@@ -52,10 +55,13 @@ def get_process(conn, process_number):
 def insert_process(conn, process_info, entities, changes):
     try:
         cursor = conn.cursor()
-        process_id = __insert_into_process(cursor, process_info)
+        __insert_into_process(cursor, process_info)
+        conn.commit()
+        process_id = cursor.lastrowid
         __insert_into_parties_involved(cursor, process_id, entities)
         __insert_into_movimentations(cursor, process_id, changes)
         conn.commit()
+        cursor.close()
     except Exception as error:
         print(error)
 
@@ -67,7 +73,7 @@ def update_process(conn, process_id, details, entities, changes):
         __update_parties_involved(cursor, process_id, entities)
         __update_movimentations(cursor, process_id, changes)
         conn.commit()
-    except (Exception, pg.DatabaseError) as error:
+    except (Exception) as error:
         print(error)
 
 
@@ -75,7 +81,7 @@ def __execute_query__(cursor, query, data):
     try:
         cursor.execute(query, data)
         return cursor.fetchall()
-    except (Exception, pg.DatabaseError) as error:
+    except (Exception) as error:
         print(error)
 
 
@@ -106,7 +112,8 @@ def __select_movimentations(cursor, process_id):
 def __format_process_info(info):
     insert_values = (info['Processo:'], info['Classe:'], info['Área:'],
                      info['Assunto:'], info['Distribuição:'], info['Juiz:'],
-                     info['Valor da ação:'], datetime.now(), DEFAULT_COURT_ID)
+                     info['Valor da ação:'], datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                     DEFAULT_COURT_ID)
     return insert_values
 
 
@@ -128,36 +135,33 @@ def __format_parties_values(process_id, parties_involved):
 
 def __insert_into_process(cursor, process_info):
     query = 'INSERT INTO processes(process_number, process_class, area, '\
-            'subject, distribution_date, judge, value, last_access, court_id)'\
-            ' VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING *;'
+            'subject, distribution_date, judge, value, last_access, court_id) '\
+            'VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);'
     values = __format_process_info(process_info)
-    cursor.execute(query, values)
-    row = cursor.fetchone()
-
-    process_id = row[0]
-    return process_id
+    return cursor.execute(query, values)
 
 
 def __insert_into_movimentations(cursor, process_id, changes):
     query = 'INSERT INTO movimentations(process_id, date, description) '\
-            'VALUES %s;'
+            'VALUES (%s, %s, %s);'
     values = __format_process_movimentations(process_id, changes)
-    execute_values(cursor, query, values)
+    return cursor.executemany(query, values)
 
 
 def __insert_into_parties_involved(cursor, process_id, parties_involved):
-    query = 'INSERT INTO parties_involved(process_id, name, role) VALUES %s;'
+    query = 'INSERT INTO parties_involved(process_id, name, role) VALUES (%s, %s, %s);'
     values = __format_parties_values(process_id, parties_involved)
-    execute_values(cursor, query, values)
+    return cursor.executemany(query, values)
 
 
 def __update_process(cursor, process_id, details):
-    query_info = 'UPDATE processes SET (process_class, area, subject, '\
-                 'distribution_date, judge, value, last_access) = %s'\
-                 'WHERE processes.id = %s ;'
+    query_info = 'UPDATE processes SET process_class = %s, area = %s, '\
+                 'subject = %s, distribution_date = %s, judge = %s, value = %s, '\
+                 'last_access = %s WHERE processes.id = %s ;'
     values = __format_process_info(details)
-    values_to_update = values[1:-1]
-    cursor.execute(query_info, (values_to_update, process_id))
+    values_to_update = list(values[1:-1])
+    values_to_update.append(process_id)
+    return cursor.execute(query_info, tuple(values_to_update))
 
 
 def __update_parties_involved(cursor, process_id, entities):

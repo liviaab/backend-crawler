@@ -24,8 +24,9 @@ You must have a user/role configured to run the database initializer. If you hav
 
 Then run
 ```sh
-$ createdb -T template0 court_crawler
-$ psql court_crawler < configs/db_initializer.sql
+$ mysql -uusername -ppassword
+  > create database court_crawler;
+$ mysql -uusername -p court_crawler < configs/db_initializer.sql
 ```
 
 If needed, change the user and password connection parameters in the configuration file located at `configs/db_credentials.local`

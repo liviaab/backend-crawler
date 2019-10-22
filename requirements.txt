@@ -1,8 +1,8 @@
 requests>=2.22.0
 beautifulsoup4>=4.8.1
 flask-restful>=0.3.7
-psycopg2>=2.8.3
+mysql.connector>=2.2.9
 -e .
--U flask-cors
--U pytest
+flask-cors
+pytest
 requests-mock
