@@ -2,6 +2,10 @@ import json
 from datetime import datetime
 import modules.db.database as db
 from modules.main import crawler as cw, formatter
+import flask_restful
+
+
+PROCESS_NUMBER_LENGTH = 25
 
 
 def get_courts():
@@ -12,6 +16,10 @@ def get_courts():
 
 
 def get_process_info(process_number):
+    if( not __is_valid_process_number(process_number)):
+        flask_restful.abort(400)
+        return
+
     info = None
     members = []
     movimentations = []
@@ -35,6 +43,10 @@ def get_process_info(process_number):
 
     db.close(conn)
     return __process_info_to_json(info, members, movimentations)
+
+
+def __is_valid_process_number(process_number):
+    return len(process_number) == PROCESS_NUMBER_LENGTH
 
 
 def __parse_data(text):
