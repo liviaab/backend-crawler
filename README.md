@@ -38,6 +38,10 @@ $ python3 modules/api/router.py
 
 It will open at [http://localhost:3333/](http://localhost:3333/)
 
+#### Running the app using `docker compose`
+```sh
+$ docker-compose up
+```
 #### Running the tests
 ```sh
 $ pytest -s
