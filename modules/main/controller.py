@@ -52,6 +52,9 @@ def __make_request(process_number):
 
 
 def __last_access_greater_than_a_day(date):
+    if(isinstance(date, str)):
+        date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S.%f')
+
     DAY_IN_SECONDS = 24 * 60 * 60
     delta = datetime.now() - date
     return delta.seconds > DAY_IN_SECONDS
@@ -59,7 +62,7 @@ def __last_access_greater_than_a_day(date):
 
 def __process_info_to_json(info, parties_involved, movimentations):
     process = {key: info[key] for key in info}
-    process['last_access'] = str(process['last_access'].strftime("%d/%m/%y"))
+    process['last_access'] = str(process['last_access'])
     process['parties_involved'] = []
     process['movimentations'] = []
 

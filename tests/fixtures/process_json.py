@@ -11,7 +11,7 @@ def process_info():
         "distribution_date": "29/09/2010 às 15:57 - Sorteio",
         "judge": "Geraldo Tenório Silveira Júnior",
         "value": "R$         510,00",
-        "last_access": datetime.now().strftime("%d/%m/%y"),
+        "last_access": str(datetime.now()),
         "court_id": 1,
         "parties_involved": [
             {
