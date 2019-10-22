@@ -1,15 +1,15 @@
 def courts_fixture():
     courts = \
-    [
-        {
-            "id": 1,
-            "name": "Tribunal de Justiça do Estado de Alagoas",
-            "initials": "TJAL"
-        }
-    ]
+        [
+            {
+                "id": 1,
+                "name": "Tribunal de Justiça do Estado de Alagoas",
+                "initials": "TJAL"
+            }
+        ]
     return courts
 
-def obj_info():
+def info():
     info = \
         {
             'Processo:': '0067154-55.2010.8.02.0001 (001.10.067154-4)',
@@ -24,7 +24,7 @@ def obj_info():
     return info
 
 
-def obj_parties():
+def members():
     parties = \
         {
             'Autor:': "' de Alagoas",
@@ -35,7 +35,7 @@ def obj_parties():
     return parties
 
 
-def obj_changes():
+def changes():
     changes = \
         [
             ['15/09/2017', 'Baixa Definitiva'],

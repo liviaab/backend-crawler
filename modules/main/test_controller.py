@@ -40,8 +40,8 @@ def test__get_process_info_in_database(monkeypatch):
 
     def mock_get_process(conn, process_number):
         info = process_json.process_info()
-        members = process_formatted.obj_parties()
-        changes = process_formatted.obj_changes()
+        members = process_formatted.members()
+        changes = process_formatted.changes()
         return (info, members, changes)
 
     def mock_process_info_to_json(info, parties_involved, movimentations):
