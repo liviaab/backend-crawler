@@ -17,7 +17,7 @@ def get_courts():
 
 def get_process_info(process_number):
     if( not __is_valid_process_number(process_number)):
-        flask_restful.abort(400)
+        flask_restful.abort(404)
         return
 
     info = None
