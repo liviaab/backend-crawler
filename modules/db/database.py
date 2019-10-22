@@ -93,14 +93,14 @@ def __select_parties_involved(cursor, process_id):
     query = 'SELECT pi.* FROM parties_involved as pi '\
             'LEFT JOIN processes as p '\
             'ON pi.process_id = p.id AND p.id = %s;'
-    return __execute_query__(cursor, query, (process_number,))
+    return __execute_query__(cursor, query, (process_id,))
 
 
 def __select_movimentations(cursor, process_id):
     query = 'SELECT m.* FROM movimentations as m '\
             'LEFT JOIN processes as p '\
             'ON m.process_id = p.id AND p.id = %s;'
-    return __execute_query__(cursor, query, (process_number,))
+    return __execute_query__(cursor, query, (process_id,))
 
 
 def __format_process_info(info):
