@@ -50,6 +50,6 @@ def test__get_process_info_in_database(monkeypatch):
     monkeypatch.setattr(db, "open", mock_open)
     monkeypatch.setattr(db, "get_process", mock_get_process)
     monkeypatch.setattr(controller, "__process_info_to_json", mock_process_info_to_json)
-    result = controller.get_process_info('12345')
+    result = controller.get_process_info('0000214-28.2011.8.02.0081')
 
     assert result == json
