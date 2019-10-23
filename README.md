@@ -73,7 +73,7 @@ $ pytest -s
 
 ## Routes
 
-You can test the routes with `postman` using the URLs
+You can test the routes in the browser or with `postman` using the URLs
 
 `http://localhost:3333/api/v1/courts`
 
