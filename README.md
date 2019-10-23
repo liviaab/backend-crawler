@@ -15,9 +15,15 @@ $ cd backend-crawler
 
 ### Running with `docker-compose`
 
-You will need `docker` v19.03.4 and `docker-compose` v1.24.1
+You will need `docker` v19.03.4 and `docker-compose` v1.24.1. The database is configured to connect to the port 5432 (postgres default port) and maybe you will have to stop the service.
 
 ```sh
+> Linux
+$ service postgres stop
+
+> MacOS
+$ brew services stop postgres
+
 $ docker-compose up --build -d
 $ docker-compose exec -T postgres psql -U postgres court_crawler < configs/db_initializer.sql
 
