@@ -59,6 +59,8 @@ $ python3 modules/api/router.py
 ```
 
 It will open at [http://localhost:3333/](http://localhost:3333/)
+Test the [routes](#routes)
+
 
 #### Running the tests
 ```sh
@@ -67,9 +69,12 @@ $ pytest -s
 
 ## Routes
 
-You can also test with `postman` using the URLs
+You can test the routes with `postman` using the URLs
+
 `http://localhost:3333/api/v1/courts`
+
 `http://localhost:3333/api/v1/processes/<process_number>`
+
 
 Process number examples:
 
