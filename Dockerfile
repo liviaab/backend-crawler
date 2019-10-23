@@ -1,7 +1,12 @@
-FROM python:3
+FROM python:3.6
 
-COPY . /backend-crawler
+
+RUN apt-get install && apt-get -y install gcc
+RUN easy_install pip
+
+EXPOSE 3333
 WORKDIR /backend-crawler
-RUN apt-get install gcc
+COPY . /backend-crawler
+
 RUN pip install -r requirements.txt
-CMD ["python3", "/modules/api/router.py"]
+CMD python3 modules/api/router.py
