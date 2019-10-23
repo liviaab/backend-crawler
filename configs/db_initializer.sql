@@ -1,5 +1,3 @@
-\echo 'Creating tables...'
-
 -- Courts
 CREATE TABLE courts (
   id serial PRIMARY KEY,
@@ -44,9 +42,6 @@ CREATE TABLE movimentations (
       ON UPDATE NO ACTION ON DELETE NO ACTION
 );
 
-\echo 'Inserting seeds...'
 -- SEEDS
 
 INSERT INTO courts VALUES (1, 'Tribunal de Justiça do Estado de Alagoas', 'TJAL')
-
-\echo 'Done!'
