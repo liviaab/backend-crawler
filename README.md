@@ -5,8 +5,6 @@ This project is the backend of an application used to retrieve information of sp
 
 ## Getting Started
 
-### Running on your local machine
-
 This project was built using `python3`, `pip3` to install the libraries and `PostgreSQL` version 11.2 or above.
 
 Clone the repo
@@ -15,22 +13,41 @@ $ git clone https://github.com/liviaab/backend-crawler.git
 $ cd backend-crawler
 ```
 
+### Running with `docker-compose`
+
+You will need `docker` v19.03.4 and `docker-compose` v1.24.1
+
+```sh
+$ docker-compose up --build -d
+$ docker-compose exec -T postgres psql -U postgres court_crawler < configs/db_initializer.sql
+
+```
+
+Test the [routes](#routes)
+
+### From project folder
+
 Install the requirements file:
 ```sh
 $ pip3 install -r requirements.txt
 ```
 
-You must have a user/role configured to run the database initializer. If you have problems, check out Postgres.app [Troubleshooting & Support](https://postgresapp.com/documentation/troubleshooting.html).
-
-Then run
+You must have a user/role configured to run the database initializer. If you have problems, check out Postgres.app [Troubleshooting & Support](https://postgresapp.com/documentation/troubleshooting.html). Then run
 ```sh
 $ createdb -T template0 court_crawler
 $ psql court_crawler < configs/db_initializer.sql
 ```
 
-If needed, change the user and password connection parameters in the configuration file located at `configs/db_credentials.local`
+You will probably have to change the user and password connection parameters in the configuration file located at `configs/db_credentials.local` to something like
 
-Serving the API
+```
+host=localhost
+database=court_crawler
+user=[user]
+password=[password]
+```
+
+And serve the API
 ```sh
 $ python3 modules/api/router.py
 ```
@@ -42,7 +59,11 @@ It will open at [http://localhost:3333/](http://localhost:3333/)
 $ pytest -s
 ```
 
-You can also test with `postman` using the request URL `http://localhost:3333/api/v1/processes/<process_number>`
+## Routes
+
+You can also test with `postman` using the URLs
+`http://localhost:3333/api/v1/courts`
+`http://localhost:3333/api/v1/processes/<process_number>`
 
 Process number examples:
 

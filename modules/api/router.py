@@ -15,4 +15,4 @@ api.add_resource(Courts, '/api/v1/courts')
 api.add_resource(Processes, '/api/v1/processes/<string:process_number>')
 
 if __name__ == '__main__':
-    app.run(debug=False, port='3333')
+    app.run(host='0.0.0.0', port='3333')
