@@ -18,13 +18,17 @@ $ cd backend-crawler
 You will need `docker` v19.03.4 and `docker-compose` v1.24.1. The database is configured to connect to the port 5432 (postgres default port) and maybe you will have to stop the service.
 
 ```sh
-> Linux
+# stop postgres service
+# Linux
 $ service postgres stop
 
-> MacOS
+# MacOS
 $ brew services stop postgres
 
+# build and run container
 $ docker-compose up --build -d
+
+# create tables and add seeds to database
 $ docker-compose exec -T postgres psql -U postgres court_crawler < configs/db_initializer.sql
 
 ```
@@ -69,7 +73,7 @@ $ pytest -s
 
 ## Routes
 
-You can test the routes with `postman` using the URLs
+You can test the routes in the browser or with `postman` using the URLs
 
 `http://localhost:3333/api/v1/courts`
 
