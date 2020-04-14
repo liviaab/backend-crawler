@@ -1,0 +1,6 @@
+README.md
+setup.py
+Court_Crawler.egg-info/PKG-INFO
+Court_Crawler.egg-info/SOURCES.txt
+Court_Crawler.egg-info/dependency_links.txt
+Court_Crawler.egg-info/top_level.txt
