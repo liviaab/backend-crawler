@@ -3,11 +3,13 @@
 This project is the backend of an application used to retrieve information of specifics lawsuits from a brazilian court of justice, TJAL.
 
 
+
 ## Getting Started
 
 This project was built using `python3`, `pip3` to install the libraries and `PostgreSQL` version 10.2 or above.
 
 Clone the repo
+
 ```sh
 $ git clone https://github.com/liviaab/backend-crawler.git
 $ cd backend-crawler
@@ -31,14 +33,16 @@ It will run at [http://localhost:3333/](http://localhost:3333/)
 Test the [routes](#routes)
 
 
-#### Method 2 - From project folder
+### Method 2 - From project folder
 
 Install the requirements file:
+
 ```sh
 $ pip3 install -r requirements.txt
 ```
 
 You must have a user/role configured to run the database initializer. If you have problems, check out Postgres.app [Troubleshooting & Support](https://postgresapp.com/documentation/troubleshooting.html). Then run
+
 ```sh
 $ createdb -T template0 court_crawler
 $ psql court_crawler < configs/db_initializer.sql
@@ -54,6 +58,7 @@ password=[password]
 ```
 
 And serve the API
+
 ```sh
 $ python3 modules/api/router.py
 ```
@@ -63,6 +68,7 @@ It will run at [http://localhost:3333/](http://localhost:3333/)
 Test the [routes](#routes)
 
 ### Running the tests
+
 ```sh
 $ pytest -s
 ```
