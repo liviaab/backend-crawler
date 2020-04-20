@@ -1,2 +1,3 @@
-volumes/
+.volumes/
 **/**/__pycache__/*
+Court_Crawler.egg-info/
